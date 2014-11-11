@@ -22,7 +22,8 @@ using MrEric.Factories;
 
 namespace MrEric.ContextActions
 {
-    [ContextAction(Name = "IntroduceAndInitializePrivateAutoPropertyAction", Description = "Create and initialize private auto-property", Group = "C#")]
+    [ContextAction(Name = "IntroduceAndInitializePrivateAutoPropertyAction",
+        Description = "Create and initialize private auto-property", Group = "C#", Priority = 100)]
     public class IntroduceAndInitializePrivateAutoPropertyAction : ContextActionBase
     {
         private ClassMemberFactory ClassMemberFactory { get; set; }
@@ -40,17 +41,45 @@ namespace MrEric.ContextActions
             ClassMemberFactory = new ClassMemberFactory();
         }
 
+
+        public override string Text
+        {
+            get { return string.Format("Create and initialize private auto-property '{0}'.", PropertyName); }
+        }
+
+        public override bool IsAvailable(IUserDataHolder cache)
+        {
+            var parameterDeclaration = FindParameterDeclaration();
+            if (parameterDeclaration == null || !parameterDeclaration.Language.IsLanguage(Language))
+                return false;
+            if (!parameterDeclaration.IsCSharp3Supported())
+            {
+                return false;
+            }
+            var declaredElement = parameterDeclaration.DeclaredElement;
+            if (declaredElement == null)
+                return false;
+            var containingNode = parameterDeclaration.GetContainingNode<IFunctionDeclaration>();
+            if (containingNode == null)
+                return false;
+            ConstructorDeclaration = containingNode as IConstructorDeclaration;
+            var constructor = containingNode.DeclaredElement as IConstructor;
+            if (constructor == null || constructor.IsStatic)
+            {
+                return false;
+            }
+            Type = parameterDeclaration.Type;
+            ParameterDeclaration = parameterDeclaration;
+            Parameter = parameterDeclaration.DeclaredElement;
+            return !HasNamingConflicts(constructor.GetContainingType(), PropertyName);
+        }
+
         protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
         {
             var factory = CSharpElementFactory.GetInstance(ParameterDeclaration);
             CreateStatement(factory, Parameter.CreateExpression(Parameter) as ICSharpExpression);
 
             return null;
-        }
-
-        public override string Text
-        {
-            get { return string.Format("Create and initialize private auto-property '{0}'.", PropertyName); }
         }
 
         private void CreateStatement(CSharpElementFactory factory, ICSharpExpression expression)
@@ -91,33 +120,6 @@ namespace MrEric.ContextActions
         }
 
 
-        public override bool IsAvailable(IUserDataHolder cache)
-        {
-            var parameterDeclaration = FindParameterDeclaration();
-            if (parameterDeclaration == null || !parameterDeclaration.Language.IsLanguage(Language))
-                return false;
-            if (!parameterDeclaration.IsCSharp3Supported())
-            {
-                return false;
-            }
-            var declaredElement = parameterDeclaration.DeclaredElement;
-            if (declaredElement == null)
-                return false;
-            var containingNode = parameterDeclaration.GetContainingNode<IFunctionDeclaration>();
-            if (containingNode == null)
-                return false;
-            ConstructorDeclaration = containingNode as IConstructorDeclaration;
-            var constructor = containingNode.DeclaredElement as IConstructor;
-            if (constructor == null || constructor.IsStatic)
-            {
-                return false;
-            }
-            Type = parameterDeclaration.Type;
-            ParameterDeclaration = parameterDeclaration;
-            Parameter = parameterDeclaration.DeclaredElement;
-            return !HasNamingConflicts(constructor.GetContainingType(), PropertyName);
-        }
-
         private string PropertyName
         {
             get
@@ -137,9 +139,11 @@ namespace MrEric.ContextActions
         private static ICSharpTypeMemberDeclaration GetAnchorMember(IList<ICSharpTypeMemberDeclaration> members)
         {
             var anchor = members.LastOrDefault(member =>
-                member.DeclaredElement is IProperty && !member.IsStatic) ??
+                member.DeclaredElement is IProperty && !member.IsStatic &&
+                member.GetAccessRights() == AccessRights.PRIVATE) ??
                          members.LastOrDefault(member =>
-                             member.DeclaredElement is IField && !member.IsStatic);
+                             member.DeclaredElement is IField && !member.IsStatic &&
+                             member.GetAccessRights() == AccessRights.PRIVATE);
             return anchor;
         }
 
