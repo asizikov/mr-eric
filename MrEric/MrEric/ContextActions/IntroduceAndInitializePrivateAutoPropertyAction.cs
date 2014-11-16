@@ -13,11 +13,11 @@ using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Naming.Extentions;
 using JetBrains.ReSharper.Psi.Naming.Impl;
-using JetBrains.ReSharper.Psi.Naming.Settings;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.Psi.Util;
 using JetBrains.TextControl;
 using JetBrains.Util;
+using MrEric.Contexts;
 using MrEric.Factories;
 
 namespace MrEric.ContextActions
@@ -29,22 +29,20 @@ namespace MrEric.ContextActions
         private ClassMemberFactory ClassMemberFactory { get; set; }
         private ICSharpContextActionDataProvider Provider { get; set; }
         private CSharpLanguage Language { get; set; }
-        private IType Type { get; set; }
-        private IParameterDeclaration ParameterDeclaration { get; set; }
-        private IParameter Parameter { get; set; }
-        private IConstructorDeclaration ConstructorDeclaration { get; set; }
+        private PrivateAutoPropertyInitializationContext Context { get; set; }
 
         public IntroduceAndInitializePrivateAutoPropertyAction(ICSharpContextActionDataProvider provider)
         {
             Provider = provider;
             Language = CSharpLanguage.Instance;
             ClassMemberFactory = new ClassMemberFactory();
+            Context = new PrivateAutoPropertyInitializationContext();
         }
 
 
         public override string Text
         {
-            get { return string.Format("Create and initialize private auto-property '{0}'.", PropertyName); }
+            get { return string.Format("Create and initialize private auto-property '{0}'.", Context.SuggestedPropertyName); }
         }
 
         public override bool IsAvailable(IUserDataHolder cache)
@@ -52,46 +50,28 @@ namespace MrEric.ContextActions
             var parameterDeclaration = FindParameterDeclaration();
             if (parameterDeclaration == null || !parameterDeclaration.Language.IsLanguage(Language))
                 return false;
-            if (!parameterDeclaration.IsCSharp3Supported())
-            {
-                return false;
-            }
-            var declaredElement = parameterDeclaration.DeclaredElement;
-            if (declaredElement == null)
-                return false;
-            var containingNode = parameterDeclaration.GetContainingNode<IFunctionDeclaration>();
-            if (containingNode == null)
-                return false;
-            ConstructorDeclaration = containingNode as IConstructorDeclaration;
-            var constructor = containingNode.DeclaredElement as IConstructor;
-            if (constructor == null || constructor.IsStatic)
-            {
-                return false;
-            }
-            Type = parameterDeclaration.Type;
-            ParameterDeclaration = parameterDeclaration;
-            Parameter = parameterDeclaration.DeclaredElement;
-            return !HasNamingConflicts(constructor.GetContainingType(), PropertyName);
+            Context.Initialize(parameterDeclaration);
+            if (!Context.IsValid) return false;
+            return !HasNamingConflicts(Context.Constructor.GetContainingType(), Context.SuggestedPropertyName);
         }
 
         protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
         {
-            var factory = CSharpElementFactory.GetInstance(ParameterDeclaration);
-            CreateStatement(factory, Parameter.CreateExpression(Parameter) as ICSharpExpression);
-
+            var factory = CSharpElementFactory.GetInstance(Context.ParameterDeclaration);
+            CreateStatement(factory, Context.Parameter.CreateExpression(Context.Parameter) as ICSharpExpression);
             return null;
         }
 
         private void CreateStatement(CSharpElementFactory factory, ICSharpExpression expression)
         {
             var statement = (IExpressionStatement) factory.CreateStatement("'__' = expression;");
-            var newDeclaration = ClassMemberFactory.CreatePropertyDeclaration(factory, Type, PropertyName);
+            var newDeclaration = ClassMemberFactory.CreatePropertyDeclaration(factory, Context.Type, Context.SuggestedPropertyName);
             var assignment = (IAssignmentExpression) statement.Expression;
             assignment.SetSource(expression);
 
             var psiServices = expression.GetPsiServices();
             var suggestionManager = psiServices.Naming.Suggestion;
-            var classDeclaration = ParameterDeclaration.GetContainingNode<IClassDeclaration>().NotNull();
+            var classDeclaration = Context.ParameterDeclaration.GetContainingNode<IClassDeclaration>().NotNull();
 
             var suggestion = suggestionManager.CreateEmptyCollection(
                 PluralityKinds.Unknown, expression.Language, true, expression);
@@ -114,25 +94,9 @@ namespace MrEric.ContextActions
 
             var languageHelper =
                 LanguageManager.Instance.TryGetService<IIntroduceFromParameterLanguageHelper>(
-                    Parameter.PresentationLanguage);
+                    Context.Parameter.PresentationLanguage);
             if (languageHelper != null)
-                languageHelper.AddAssignmentToBody(ConstructorDeclaration, null, false, Parameter, PropertyName);
-        }
-
-
-        private string PropertyName
-        {
-            get
-            {
-                return
-                    Parameter.GetPsiServices()
-                        .Naming.Suggestion.GetDerivedName(Parameter,
-                            NamedElementKinds.MethodPropertyEvent, ScopeKind.Common,
-                            Parameter.PresentationLanguage, new SuggestionOptions
-                            {
-                                DefaultName = "unknown"
-                            }, Parameter.GetSourceFiles().FirstOrDefault());
-            }
+                languageHelper.AddAssignmentToBody(Context.ConstructorDeclaration, null, false, Context.Parameter, Context.SuggestedPropertyName);
         }
 
 
