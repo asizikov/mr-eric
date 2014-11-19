@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using JetBrains.Application.Progress;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.Bulbs;
 using JetBrains.ReSharper.Feature.Services.CSharp.Bulbs;
+using JetBrains.ReSharper.Feature.Services.CSharp.CompleteStatement;
 using JetBrains.ReSharper.I18n.Services;
 using JetBrains.ReSharper.Intentions.Extensibility;
 using JetBrains.ReSharper.Intentions.QuickFixes.UsageChecking;
@@ -96,10 +98,28 @@ namespace MrEric.ContextActions
                 LanguageManager.Instance.TryGetService<IIntroduceFromParameterLanguageHelper>(
                     Context.Parameter.PresentationLanguage);
             if (languageHelper != null)
-                languageHelper.AddAssignmentToBody(Context.ConstructorDeclaration, null, false, Context.Parameter, Context.SuggestedPropertyName);
+            {
+                var anchorInitializationAnchorMember = GetAnchorInitializationAnchorMember(Context.ConstructorDeclaration);
+                languageHelper.AddAssignmentToBody(Context.ConstructorDeclaration, anchorInitializationAnchorMember, false, Context.Parameter, Context.SuggestedPropertyName);
+            }
         }
 
+        [CanBeNull]
+        private static IStatement GetAnchorInitializationAnchorMember(
+            [NotNull] IConstructorDeclaration constructorDeclaration)
+        {
+            if (constructorDeclaration == null) throw new ArgumentNullException("constructorDeclaration");
+            var statements = constructorDeclaration.Body.Statements;
+            if (statements.IsEmpty) return null;
 
+            var expressionStatement = statements.LastOrDefault(statement => statement is IExpressionStatement) as IExpressionStatement;
+            if (expressionStatement != null) return expressionStatement;
+
+            var ifStatement = statements.LastOrDefault(statement => statement is IIfStatement);
+            return ifStatement ?? statements.LastOrDefault();
+        }
+
+        [CanBeNull]
         private static ICSharpTypeMemberDeclaration GetAnchorMember(IList<ICSharpTypeMemberDeclaration> members)
         {
             var anchor = members.LastOrDefault(member =>
