@@ -16,6 +16,6 @@
         </dependencies>
     </metadata>
     <files>
-        <file src="MrEric\MrEric\bin\Release\MrEric.dll" target="Resharper\v8.2\plugins\MrEric.dll" />
+        <file src="..\MrEric\MrEric\bin\Release\MrEric.dll" target="Resharper\v8.2\plugins\MrEric.dll" />
     </files>
 </package>
