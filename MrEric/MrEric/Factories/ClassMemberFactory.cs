@@ -4,9 +4,9 @@ using JetBrains.ReSharper.Psi.CSharp.Tree;
 
 namespace MrEric.Factories
 {
-    public class ClassMemberFactory
+    public static class ClassMemberFactory
     {
-        public IClassMemberDeclaration CreatePropertyDeclaration(CSharpElementFactory factory,
+        public static IClassMemberDeclaration CreatePrivatePropertyDeclaration(this CSharpElementFactory factory,
             IType typeExpression, string memberName)
         {
             var declaration = factory.CreatePropertyDeclaration(typeExpression, memberName);

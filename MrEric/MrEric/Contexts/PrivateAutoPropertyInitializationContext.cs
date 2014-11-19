@@ -6,7 +6,7 @@ using MrEric.Factories;
 
 namespace MrEric.Contexts
 {
-    internal class PrivateAutoPropertyInitializationContext
+    public class PrivateAutoPropertyInitializationContext
     {
         public IType Type { get; private set; }
 
