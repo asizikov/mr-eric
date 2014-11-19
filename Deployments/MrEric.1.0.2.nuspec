@@ -18,7 +18,7 @@
         </dependencies>
     </metadata>
     <files>
-        <file src="Resharper\v8.2\plugins\MrEric.dll" target="Resharper\v8.2\plugins\MrEric.dll" />
-        <file src="Resharper\vAny\settings\mr-eric-templates.DotSettings" target="Resharper\vAny\settings\mr-eric-templates.DotSettings" />
+        <file src="..\MrEric\MrEric\bin\Release\MrEric.dll" target="Resharper\v8.2\plugins\MrEric.dll" />
+        <file src="..\Templates\mr-eric-templates.DotSettings" target="Resharper\vAny\settings\mr-eric-templates.DotSettings" />
     </files>
 </package>
