@@ -36,7 +36,7 @@ namespace MrEric.Common
         private void CreateStatement(CSharpElementFactory factory, ICSharpExpression expression)
         {
             var statement = (IExpressionStatement) factory.CreateStatement("'__' = expression;");
-            var newDeclaration = factory.CreatePrivatePropertyDeclaration(Context.Type, Context.SuggestedPropertyName);
+            var propertyDeclaration = factory.CreatePrivatePropertyDeclaration(Context.Type, Context.SuggestedPropertyName);
             var assignment = (IAssignmentExpression) statement.Expression;
             assignment.SetSource(expression);
 
@@ -53,15 +53,15 @@ namespace MrEric.Common
                 PredefinedPrefixPolicy = PredefinedPrefixPolicy.Remove
             });
 
-            suggestion.Prepare(newDeclaration.DeclaredElement, new SuggestionOptions
+            suggestion.Prepare(propertyDeclaration.DeclaredElement, new SuggestionOptions
             {
                 UniqueNameContext = (ITreeNode) classDeclaration.Body ?? classDeclaration
             });
 
-            newDeclaration.SetName(suggestion.FirstName());
+            propertyDeclaration.SetName(suggestion.FirstName());
 
             var memberAnchor = GetAnchorMember(classDeclaration.MemberDeclarations.ToList());
-            classDeclaration.AddClassMemberDeclarationAfter(newDeclaration, (IClassMemberDeclaration) memberAnchor);
+            classDeclaration.AddClassMemberDeclarationAfter(propertyDeclaration, (IClassMemberDeclaration) memberAnchor);
 
             var languageHelper =
                 LanguageManager.Instance.TryGetService<IIntroduceFromParameterLanguageHelper>(
@@ -71,7 +71,7 @@ namespace MrEric.Common
 
             var anchorInitializationAnchorMember = GetAnchorInitializationAnchorMember(Context.ConstructorDeclaration);
             languageHelper.AddAssignmentToBody(Context.ConstructorDeclaration, anchorInitializationAnchorMember, false,
-                Context.Parameter, Context.SuggestedPropertyName);
+                Context.Parameter, propertyDeclaration.DeclaredName);
         }
 
         [CanBeNull]
