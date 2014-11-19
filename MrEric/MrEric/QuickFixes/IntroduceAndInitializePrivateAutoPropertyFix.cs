@@ -8,6 +8,7 @@ using JetBrains.ReSharper.Intentions.Extensibility;
 using JetBrains.ReSharper.Intentions.Extensibility.Menu;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.TextControl;
+using JetBrains.UI.BulbMenu;
 using JetBrains.Util;
 using MrEric.Common;
 
@@ -37,13 +38,14 @@ namespace MrEric.QuickFixes
 
         protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
         {
-            ExetuteInitialization();
+            ExecuteInitialization();
             return null;
         }
 
         public IEnumerable<IntentionAction> CreateBulbItems()
         {
-            return this.ToQuickFixAction();
+            var anchor = BulbMenuAnchorPositions.FirstClassContextItems;
+            return this.ToQuickFixAction(anchor);
         }
 
         public override bool IsAvailable(IUserDataHolder cache)

@@ -44,7 +44,7 @@ namespace MrEric.Common
             return typeElement.HasMembers(memberName, true);
         }
 
-        protected void ExetuteInitialization()
+        protected void ExecuteInitialization()
         {
             var executor = new IntroduceAndInitializePrivateAutoPropertyExectutor(Context);
             executor.Execute();
