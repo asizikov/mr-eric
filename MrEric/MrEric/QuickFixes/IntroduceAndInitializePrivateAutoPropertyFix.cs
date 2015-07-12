@@ -4,14 +4,8 @@ using JetBrains.Application.Progress;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Daemon.UsageChecking;
 using JetBrains.ReSharper.Feature.Services.Bulbs;
-#if RESHARPER8
 using JetBrains.ReSharper.Intentions.Extensibility;
 using JetBrains.ReSharper.Intentions.Extensibility.Menu;
-#endif
-#if RESHARPER9
-using JetBrains.ReSharper.Feature.Services.Intentions;
-using JetBrains.ReSharper.Feature.Services.QuickFixes;
-#endif
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.TextControl;
 using JetBrains.UI.BulbMenu;
