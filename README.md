@@ -22,8 +22,9 @@ Fields don't let you write code in them, properties do.
 (c) Eric Lippert
 ```
 
+How to install
+===
 
-
-
+https://resharper-plugins.jetbrains.com/packages/MrEric/
 
 
