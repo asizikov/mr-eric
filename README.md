@@ -24,7 +24,10 @@ Fields don't let you write code in them, properties do.
 
 How to install
 ===
-
+ReSharper 8.2:
 https://resharper-plugins.jetbrains.com/packages/MrEric/
+
+ReSharper 9.1:
+https://resharper-plugins.jetbrains.com/packages/Sizikov.MrEric/
 
 
