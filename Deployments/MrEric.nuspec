@@ -1,24 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
-        <id>MrEric</id>
-        <version>1.0.2</version>
+        <id>Sizikov.MrEric</id>
+        <version>1.0.5</version>
         <title>Mr. Eric</title>
         <authors>Anton Sizikov</authors>
         <owners>AntonSizikov</owners>
         <projectUrl>https://github.com/asizikov/mr-eric</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>"Create and initialize private auto-property" context action, quick fix and live template for ReSharper.</description>
-        <releaseNotes>*Quick fix and live template added
-* "Property name same as class name" bug fixed</releaseNotes>
+        <releaseNotes>ReSharper 9.1 support</releaseNotes>
         <language>en-US</language>
         <tags>auto-property, autoproperty</tags>
         <dependencies>
-            <dependency id="ReSharper" version="8.2" />
+            <dependency id="Wave" version="[2.0]" />
         </dependencies>
     </metadata>
     <files>
-        <file src="..\MrEric\MrEric\bin\Release\MrEric.dll" target="Resharper\v8.2\plugins\MrEric.dll" />
-        <file src="..\Templates\mr-eric-templates.DotSettings" target="Resharper\vAny\settings\mr-eric-templates.DotSettings" />
+        <file src="..\MrEric\MrEric.R91\bin\Release\MrEric.R91.dll" target="dotFiles" />
     </files>
 </package>

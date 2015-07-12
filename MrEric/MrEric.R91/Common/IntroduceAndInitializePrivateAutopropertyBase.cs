@@ -1,17 +1,9 @@
-﻿
-#if RESHARPER8
-using JetBrains.ReSharper.Intentions.Extensibility;
+﻿using JetBrains.ReSharper.Feature.Services.Bulbs;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.Psi.Util;
 using JetBrains.Util;
-#endif
-#if RESHARPER9
-using JetBrains.ReSharper.Feature.Services.Bulbs;
-#endif
-
-using MrEric.Contexts;
 
 namespace MrEric.Common
 {
@@ -19,7 +11,7 @@ namespace MrEric.Common
     {
         protected PrivateAutoPropertyInitializationContext Context { get; set; }
         private CSharpLanguage Language { get; set; }
-        
+
         protected IntroduceAndInitializePrivateAutopropertyBase()
         {
             Context = new PrivateAutoPropertyInitializationContext();

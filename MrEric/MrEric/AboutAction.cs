@@ -1,6 +1,8 @@
-﻿using System.Windows.Forms;
+﻿#if RESHARPER8
+using System.Windows.Forms;
 using JetBrains.ActionManagement;
 using JetBrains.Application.DataContext;
+#endif
 
 namespace MrEric
 {
