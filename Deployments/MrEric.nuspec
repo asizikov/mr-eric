@@ -5,6 +5,7 @@
         <version>1.0.6</version>
         <title>Mr. Eric (for R# 9.2)</title>
         <authors>Anton Sizikov</authors>
+	<iconUrl>https://raw.githubusercontent.com/asizikov/mr-eric/master/Content/lock.png</iconUrl>
         <owners>AntonSizikov</owners>
         <projectUrl>https://github.com/asizikov/mr-eric</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
