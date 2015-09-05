@@ -2,18 +2,18 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Sizikov.MrEric</id>
-        <version>1.0.5</version>
+        <version>1.0.6</version>
         <title>Mr. Eric</title>
         <authors>Anton Sizikov</authors>
         <owners>AntonSizikov</owners>
         <projectUrl>https://github.com/asizikov/mr-eric</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>"Create and initialize private auto-property" context action, quick fix and live template for ReSharper.</description>
-        <releaseNotes>ReSharper 9.1 support</releaseNotes>
+        <releaseNotes>ReSharper 9.2 support</releaseNotes>
         <language>en-US</language>
         <tags>auto-property, autoproperty</tags>
         <dependencies>
-            <dependency id="Wave" version="[2.0]" />
+            <dependency id="Wave" version="[3.0]" />
         </dependencies>
     </metadata>
     <files>
