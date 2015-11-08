@@ -1,6 +1,6 @@
 ﻿using JetBrains.ReSharper.Psi;
+using JetBrains.ReSharper.Psi.CodeStyle;
 using JetBrains.ReSharper.Psi.CSharp;
-using JetBrains.ReSharper.Psi.CSharp.CodeStyle.Suggest;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Tree;
 
@@ -19,7 +19,7 @@ namespace MrEric.Psi
             var shortName1 = parameter.ShortName;
             var shortName2 = member.ShortName;
             var statement = instance.CreateStatement("$0 = $1;", (object) shortName2, (object) shortName1);
-            CodeStyleUtil.ApplyRecursive<ThisQualifierStyleSuggestion>(insertBefore
+            CodeStyleUtil.ApplyRecursive(insertBefore
                 ? constructorDeclaration1.Body.AddStatementBefore(statement,
                     (ICSharpStatement) anchorStatement)
                 : constructorDeclaration1.Body.AddStatementAfter(statement,
