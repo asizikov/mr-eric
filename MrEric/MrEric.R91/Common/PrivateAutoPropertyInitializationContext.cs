@@ -18,17 +18,11 @@ namespace MrEric.Common
 
         public bool IsValid { get; private set; }
 
-        public string SuggestedPropertyName
-        {
-            get { return Parameter.GetSuggestedName(); }
-        }
+        public string SuggestedPropertyName => Parameter.GetSuggestedName();
 
         public IPsiSourceFile SourceFile { get; set; }
 
-        public void Initialize(IParameterDeclaration parameterDeclaration)
-        {
-            IsValid = InitializeInternal(parameterDeclaration);
-        }
+        public void Initialize(IParameterDeclaration parameterDeclaration) => IsValid = InitializeInternal(parameterDeclaration);
 
         private bool InitializeInternal(IParameterDeclaration parameterDeclaration)
         {

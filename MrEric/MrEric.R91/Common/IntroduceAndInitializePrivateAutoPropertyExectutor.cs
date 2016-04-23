@@ -21,7 +21,7 @@ namespace MrEric.Common
         public IntroduceAndInitializePrivateAutoPropertyExectutor(
             [NotNull] PrivateAutoPropertyInitializationContext context)
         {
-            if (context == null) throw new ArgumentNullException("context");
+            if (context == null) throw new ArgumentNullException(nameof(context));
             Context = context;
         }
 
@@ -79,7 +79,7 @@ namespace MrEric.Common
         private static IStatement GetAnchorInitializationAnchorMember(
             [NotNull] ICSharpFunctionDeclaration constructorDeclaration)
         {
-            if (constructorDeclaration == null) throw new ArgumentNullException("constructorDeclaration");
+            if (constructorDeclaration == null) throw new ArgumentNullException(nameof(constructorDeclaration));
             var statements = constructorDeclaration.Body.Statements;
             if (statements.IsEmpty) return null;
 

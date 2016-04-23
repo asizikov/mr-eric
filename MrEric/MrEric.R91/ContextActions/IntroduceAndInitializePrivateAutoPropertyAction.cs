@@ -13,21 +13,18 @@ using MrEric.Common;
 
 namespace MrEric.ContextActions
 {
-    [ContextAction(Name = "IntroduceAndInitializePrivateAutoPropertyAction",
-        Description = "Create and initialize private auto-property", Group = "C#", Priority = 100)]
+    [ContextAction(Name = "IntroduceAndInitializePrivateAutoPropertyAction", Description = "Create and initialize private auto-property", Group = "C#",
+        Priority = 100)]
     public class IntroduceAndInitializePrivateAutoPropertyAction : IntroduceAndInitializePrivateAutopropertyBase, IContextAction
     {
-        private ICSharpContextActionDataProvider Provider { get; set; }
+        private ICSharpContextActionDataProvider Provider { get; }
 
         public IntroduceAndInitializePrivateAutoPropertyAction(ICSharpContextActionDataProvider provider)
         {
             Provider = provider;
         }
 
-        public IEnumerable<IntentionAction> CreateBulbItems()
-        {
-            return this.ToContextAction();
-        }
+        public IEnumerable<IntentionAction> CreateBulbItems() => this.ToContextActionIntentions();
 
         public override bool IsAvailable(IUserDataHolder cache)
         {
@@ -41,9 +38,6 @@ namespace MrEric.ContextActions
             return null;
         }
 
-        protected override IParameterDeclaration FindParameterDeclaration()
-        {
-            return Provider.GetSelectedElement<IParameterDeclaration>(true, false);
-        }
+        protected override IParameterDeclaration FindParameterDeclaration() => Provider.GetSelectedElement<IParameterDeclaration>(true, false);
     }
 }

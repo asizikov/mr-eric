@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Sizikov.MrEric</id>
-        <version>1.1.0</version>
+        <version>1.2.0-rc01</version>
         <title>Mr. Eric (for R# 10)</title>
         <authors>Anton Sizikov</authors>
 	<iconUrl>https://raw.githubusercontent.com/asizikov/mr-eric/master/Content/lock.png</iconUrl>
@@ -14,10 +14,11 @@
         <language>en-US</language>
         <tags>auto-property, autoproperty</tags>
         <dependencies>
-            <dependency id="Wave" version="[4.0]" />
+            <dependency id="Wave" version="[5.0]" />
         </dependencies>
     </metadata>
     <files>
         <file src="..\MrEric\MrEric.R91\bin\Release\MrEric.R91.dll" target="dotFiles" />
+	<file src="..\Templates\mr-eric-templates.DotSettings" target="DotFiles\Extensions\Sizikov.MrEric\settings\" />
     </files>
 </package>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using JetBrains.Application.Progress;
 using JetBrains.ProjectModel;
+using JetBrains.ReSharper.Daemon;
 using JetBrains.ReSharper.Daemon.UsageChecking;
 using JetBrains.ReSharper.Feature.Services.Bulbs;
 using JetBrains.ReSharper.Feature.Services.Intentions;
@@ -44,8 +45,8 @@ namespace MrEric.ContextActions
 
         public IEnumerable<IntentionAction> CreateBulbItems()
         {
-            var anchor = BulbMenuAnchorPositions.FirstClassContextItems;
-            return this.ToQuickFixAction(anchor);
+            var anchor = RootAnchor.Instance;
+            return this.ToQuickFixIntentions(anchor);
         }
 
         public override bool IsAvailable(IUserDataHolder cache)
@@ -55,9 +56,6 @@ namespace MrEric.ContextActions
             return isAvailable;
         }
 
-        protected override IParameterDeclaration FindParameterDeclaration()
-        {
-            return Context.ParameterDeclaration;
-        }
+        protected override IParameterDeclaration FindParameterDeclaration() => Context.ParameterDeclaration;
     }
 }

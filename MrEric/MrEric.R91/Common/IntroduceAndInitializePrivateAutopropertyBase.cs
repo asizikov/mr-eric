@@ -9,8 +9,8 @@ namespace MrEric.Common
 {
     public abstract class IntroduceAndInitializePrivateAutopropertyBase : BulbActionBase
     {
-        protected PrivateAutoPropertyInitializationContext Context { get; set; }
-        private CSharpLanguage Language { get; set; }
+        protected PrivateAutoPropertyInitializationContext Context { get; }
+        private CSharpLanguage Language { get; }
 
         protected IntroduceAndInitializePrivateAutopropertyBase()
         {
@@ -24,24 +24,16 @@ namespace MrEric.Common
             if (parameterDeclaration == null || !parameterDeclaration.Language.IsLanguage(Language))
                 return false;
             Context.Initialize(parameterDeclaration);
-            if (!Context.IsValid) return false;
+            if (!Context.IsValid)
+                return false;
             return !HasNamingConflicts(Context.Constructor.GetContainingType(), Context.SuggestedPropertyName);
         }
 
-        public override string Text
-        {
-            get
-            {
-                return string.Format("Create and initialize private auto-property '{0}'.", Context.SuggestedPropertyName);
-            }
-        }
+        public override string Text => $"Create and initialize private auto-property '{Context.SuggestedPropertyName}'.";
 
         protected abstract IParameterDeclaration FindParameterDeclaration();
 
-        private static bool HasNamingConflicts(ITypeElement typeElement, string memberName)
-        {
-            return typeElement.HasMembers(memberName, true);
-        }
+        private static bool HasNamingConflicts(ITypeElement typeElement, string memberName) => typeElement.HasMembers(memberName, true);
 
         protected void ExecuteInitialization()
         {
