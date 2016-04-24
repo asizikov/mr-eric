@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Sizikov.MrEric</id>
-        <version>1.2.0-rc03</version>
+        <version>@build.number@</version>
         <title>Mr. Eric (for R# 2016)</title>
         <authors>Anton Sizikov</authors>
 	<iconUrl>https://raw.githubusercontent.com/asizikov/mr-eric/master/Content/lock.png</iconUrl>
@@ -18,7 +18,7 @@
         </dependencies>
     </metadata>
     <files>
-        <file src="..\MrEric\MrEric.R91\bin\Release\MrEric.R91.dll" target="dotFiles" />
-	<file src="..\Templates\mr-eric-templates.DotSettings" target="DotFiles\Extensions\Sizikov.MrEric\settings\" />
+        <file src=".build\MrEric.R91.dll" target="dotFiles" />
+	<file src="Templates\mr-eric-templates.DotSettings" target="DotFiles\Extensions\Sizikov.MrEric\settings\" />
     </files>
 </package>
