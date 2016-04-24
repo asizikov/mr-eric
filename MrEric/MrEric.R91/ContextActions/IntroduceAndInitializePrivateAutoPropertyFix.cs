@@ -45,7 +45,8 @@ namespace MrEric.ContextActions
 
         public IEnumerable<IntentionAction> CreateBulbItems()
         {
-            var anchor = RootAnchor.Instance;
+            var anchor = BulbMenuAnchorPositions.FirstClassContextItems;
+            
             return this.ToQuickFixIntentions(anchor);
         }
 
@@ -57,5 +58,12 @@ namespace MrEric.ContextActions
         }
 
         protected override IParameterDeclaration FindParameterDeclaration() => Context.ParameterDeclaration;
+    }
+    
+    public static class BulbMenuAnchorPositions
+    {
+        public static readonly IAnchorPosition PermanentTopForIconPosition = AnchorPosition.BasePosition;
+        public static readonly IAnchorPosition FirstClassContextItemsPosition = BulbMenuAnchorPositions.PermanentTopForIconPosition.GetNext();
+        public static readonly IAnchor FirstClassContextItems = new InvisibleAnchor(RootAnchor.Instance, true);
     }
 }
