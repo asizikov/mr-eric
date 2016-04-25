@@ -1,5 +1,10 @@
 mr-eric
 =======
+
+[![Build status](https://ci.appveyor.com/api/projects/status/0oi2pep5gv5m1t2o/branch/master?svg=true)](https://ci.appveyor.com/project/asizikov/mr-eric/branch/master)
+
+
+
 Create and initialize private auto-property context action for ReSharper.
 
 
