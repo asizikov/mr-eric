@@ -7,7 +7,10 @@ open Fake
 let buildDir = "./.build/"
 let packagingDir = "./.deploy/"
 let nuspecFileName = "MrEric.nuspec"
-let version = "1.3"
+let version = 
+    match buildServer with 
+    | AppVeyor ->  "1.3.0-rc"
+    | _ ->  "1.3.0-local"
 
 //NuSpec fileds
 
