@@ -2,7 +2,7 @@
 #r @"packages/FAKE/tools/FakeLib.dll"
 open Fake
 
-RestorePackages()
+//RestorePackages()
 
 let buildDir = "./.build/"
 let packagingDir = "./.deploy/"
@@ -14,6 +14,15 @@ let version = "1.3"
 
 Target "Clean" (fun _ ->
     CleanDirs [buildDir; packagingDir]
+)
+
+
+Target "RestorePackages" (fun _ ->
+  let packagesDir = @"./src/packages"
+  !! "./**/packages.config"
+  |> Seq.iter (RestorePackage (fun p ->
+      { p with
+          OutputPath = packagesDir }))
 )
 
 
@@ -40,6 +49,7 @@ Target "CreatePackage" (fun _ ->
 )
 // Dependencies
 "Clean"
+  ==> "RestorePackages"
   ==> "BuildApp"
   ==> "CreatePackage"
   ==> "Default"
