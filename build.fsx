@@ -11,7 +11,7 @@ let nuspecFileName = "MrEric.nuspec"
 let baseVersion = "1.3.0"
 let version = 
     match buildServer with 
-    | AppVeyor ->  AppVeyorEnvironment.BuildVersion + "rc" + AppVeyorEnvironment.BuildNumber
+    | AppVeyor ->  baseVersion + "-rc" + AppVeyorEnvironment.BuildNumber
     | _ ->  baseVersion + "-local"
 
 //NuSpec fileds
