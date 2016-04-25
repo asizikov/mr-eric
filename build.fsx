@@ -14,9 +14,6 @@ let version =
     | AppVeyor ->  baseVersion + "-rc" + AppVeyorEnvironment.BuildNumber
     | _ ->  baseVersion + "-local"
 
-//NuSpec fileds
-
-
 Target "Clean" (fun _ ->
     CleanDirs [buildDir; packagingDir]
 )
@@ -30,6 +27,9 @@ Target "RestorePackages" (fun _ ->
           OutputPath = packagesDir }))
 )
 
+Target "InstallGitVersion" (fun _ ->
+"gitversion.portable" |> Choco.Install id
+)
 
 Target "BuildApp" (fun _ ->
     !! "src/**/*.csproj"
@@ -54,6 +54,7 @@ Target "CreatePackage" (fun _ ->
 )
 // Dependencies
 "Clean"
+  =?> ("InstallGitVersion", Choco.IsAvailable)
   ==> "RestorePackages"
   ==> "BuildApp"
   ==> "CreatePackage"
