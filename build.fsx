@@ -1,16 +1,18 @@
 // include Fake lib
 #r @"packages/FAKE/tools/FakeLib.dll"
 open Fake
+open Fake.AppVeyor
 
 //RestorePackages()
 
 let buildDir = "./.build/"
 let packagingDir = "./.deploy/"
 let nuspecFileName = "MrEric.nuspec"
+let baseVersion = "1.3.0"
 let version = 
     match buildServer with 
-    | AppVeyor ->  "1.3.0-rc"
-    | _ ->  "1.3.0-local"
+    | AppVeyor ->  AppVeyorEnvironment.BuildVersion + "rc" + AppVeyorEnvironment.BuildNumber
+    | _ ->  baseVersion + "-local"
 
 //NuSpec fileds
 
