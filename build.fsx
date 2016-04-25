@@ -28,7 +28,11 @@ Target "RestorePackages" (fun _ ->
 )
 
 Target "InstallGitVersion" (fun _ ->
-"gitversion.portable" |> Choco.Install id
+    "gitversion.portable" |> Choco.Install id
+)
+
+Target "ExecuteGitVersion" (fuc _ -> 
+         Shell.Exec("gitversion","/l", "console", "/output", "buildserver")
 )
 
 Target "BuildApp" (fun _ ->
