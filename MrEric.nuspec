@@ -10,7 +10,7 @@
         <projectUrl>https://github.com/asizikov/mr-eric</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>"Create and initialize private auto-property" context action, quick fix and live template for ReSharper.</description>
-        <releaseNotes>ReSharper 10 support</releaseNotes>
+        <releaseNotes>ReSharper 2016.1 support</releaseNotes>
         <language>en-US</language>
         <tags>auto-property, autoproperty</tags>
         <dependencies>
@@ -19,6 +19,6 @@
     </metadata>
     <files>
         <file src=".build\MrEric.R91.dll" target="dotFiles" />
-	<file src="Templates\mr-eric-templates.DotSettings" target="DotFiles\Extensions\Sizikov.MrEric\settings\" />
+        <file src="Templates\mr-eric-templates.DotSettings" target="DotFiles\Extensions\Sizikov.MrEric\settings\" />
     </files>
 </package>
