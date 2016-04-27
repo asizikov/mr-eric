@@ -59,6 +59,7 @@ Target "CreatePackage" (fun _ ->
 // Dependencies
 "Clean"
   =?> ("InstallGitVersion", Choco.IsAvailable)
+  =?> ("ExecuteGitVersion", Choco.IsAvailable)
   ==> "RestorePackages"
   ==> "BuildApp"
   ==> "CreatePackage"
