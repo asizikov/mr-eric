@@ -31,8 +31,8 @@ Target "InstallGitVersion" (fun _ ->
     "gitversion.portable" |> Choco.Install id
 )
 
-Target "ExecuteGitVersion" (fuc _ -> 
-         Shell.Exec("gitversion","/l", "console", "/output", "buildserver")
+Target "ExecuteGitVersion" (fun _ -> 
+         Shell.Exec("gitversion","/l console /output buildserver" ) |> ignore
 )
 
 Target "BuildApp" (fun _ ->
