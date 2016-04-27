@@ -3,16 +3,11 @@
 open Fake
 open Fake.AppVeyor
 
-//RestorePackages()
-
 let buildDir = "./.build/"
 let packagingDir = "./.deploy/"
 let nuspecFileName = "MrEric.nuspec"
 let baseVersion = "1.3.0"
-let version = 
-    match buildServer with 
-    | AppVeyor ->  baseVersion + "-rc" + AppVeyorEnvironment.BuildNumber
-    | _ ->  baseVersion + "-local"
+
 
 Target "Clean" (fun _ ->
     CleanDirs [buildDir; packagingDir]
@@ -29,11 +24,9 @@ Target "RestorePackages" (fun _ ->
 
 Target "InstallGitVersion" (fun _ ->
     "gitversion.portable" |> Choco.Install id
+    Shell.Exec("gitversion","/l console /output buildserver" ) |> ignore
 )
 
-Target "ExecuteGitVersion" (fun _ -> 
-         Shell.Exec("gitversion","/l console /output buildserver" ) |> ignore
-)
 
 Target "BuildApp" (fun _ ->
     !! "src/**/*.csproj"
@@ -47,6 +40,10 @@ Target "Default" (fun _ ->
 Target "CreatePackage" (fun _ ->
     // Copy all the package files into a package folder
     //CopyFiles packagingDir allPackageFiles
+    let version = 
+        match buildServer with 
+        | AppVeyor -> AppVeyorEnvironment.BuildNumber
+        | _ ->  baseVersion + "-local"
 
     NuGet (fun p -> 
         {p with
@@ -59,7 +56,6 @@ Target "CreatePackage" (fun _ ->
 // Dependencies
 "Clean"
   =?> ("InstallGitVersion", Choco.IsAvailable)
-  =?> ("ExecuteGitVersion", Choco.IsAvailable)
   ==> "RestorePackages"
   ==> "BuildApp"
   ==> "CreatePackage"
