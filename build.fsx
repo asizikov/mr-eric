@@ -42,7 +42,7 @@ Target "CreatePackage" (fun _ ->
     //CopyFiles packagingDir allPackageFiles
     let version = 
         match buildServer with 
-        | AppVeyor -> AppVeyorEnvironment.BuildNumber
+        | AppVeyor -> AppVeyorEnvironment.BuildVersion
         | _ ->  baseVersion + "-local"
 
     NuGet (fun p -> 
