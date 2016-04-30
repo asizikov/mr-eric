@@ -26,7 +26,12 @@ Target "RestorePackages" (fun _ ->
 
 Target "InstallGitVersion" (fun _ ->
     "gitversion.portable" |> Choco.Install id
-    Shell.Exec("gitversion","/l console /output buildserver" ) |> ignore
+    let args = match buildServer with 
+                  | AppVeyor -> "/l console /output buildserver"
+                  | _ ->  "/l console"
+    "Running GitVersion with " + args |> trace
+    let result = Shell.Exec("gitversion", args ) 
+    if result <> 0 then failwithf "%s exited with error %d" "gitversion" result
 )
 
 
@@ -56,7 +61,9 @@ Target "CreatePackage" (fun _ ->
             Publish = false }) 
             nuspecFileName
 )
-// Dependencies
+
+
+
 "Clean"
   =?> ("InstallGitVersion", Choco.IsAvailable)
   ==> "RestorePackages"
@@ -64,7 +71,4 @@ Target "CreatePackage" (fun _ ->
   ==> "CreatePackage"
   ==> "Default"
 
-
-
-// start build
 RunTargetOrDefault "Default"
