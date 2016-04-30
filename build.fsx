@@ -42,12 +42,8 @@ Target "CreatePackage" (fun _ ->
     //CopyFiles packagingDir allPackageFiles
     let version = 
         match buildServer with 
-        | AppVeyor -> AppVeyorEnvironment.BuildVersion
+        | AppVeyor -> environVar "GitVersion_SemVer"
         | _ ->  baseVersion + "-local"
-    
-    let version2 = environVar "GitVersion_SemVer"
-    sprintf "%s" version2 |> ignore
-
     NuGet (fun p -> 
         {p with
             OutputPath = packagingDir
