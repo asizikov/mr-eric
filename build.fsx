@@ -44,6 +44,9 @@ Target "CreatePackage" (fun _ ->
         match buildServer with 
         | AppVeyor -> AppVeyorEnvironment.BuildVersion
         | _ ->  baseVersion + "-local"
+    
+    let version2 = environVar "GitVersion_SemVer"
+    sprintf "%s" version2 |> ignore
 
     NuGet (fun p -> 
         {p with
