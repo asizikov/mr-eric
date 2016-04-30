@@ -24,15 +24,15 @@ Target "RestorePackages" (fun _ ->
           OutputPath = packagesDir }))
 )
 
-Target "InstallGitVersion" (fun _ ->
-    "gitversion.portable" |> Choco.Install id
-    let args = match buildServer with 
-                  | AppVeyor -> "/l console /output buildserver"
-                  | _ ->  "/l console"
-    "Running GitVersion with " + args |> trace
-    let result = Shell.Exec("gitversion", args ) 
-    if result <> 0 then failwithf "%s exited with error %d" "gitversion" result
-)
+//Target "InstallGitVersion" (fun _ ->
+//    "gitversion.portable" |> Choco.Install id
+//    let args = match buildServer with 
+//                  | AppVeyor -> "/l console /output buildserver"
+//                  | _ ->  "/l console"
+//    "Running GitVersion with " + args |> trace
+//    let result = Shell.Exec("gitversion", args ) 
+//    if result <> 0 then failwithf "%s exited with error %d" "gitversion" result
+//)
 
 
 Target "BuildApp" (fun _ ->
@@ -50,7 +50,6 @@ Target "CreatePackage" (fun _ ->
         match buildServer with 
         | AppVeyor -> environVar "GitVersion_SemVer"
         | _ ->  baseVersion + "-local"
-    //let x = Shell.Exec("powershell", "(get-item env:GitVersion_InformationalVersion).Value"))// |> trace value
     appSetting "GitVersion_InformationalVersion" |> trace
     getBuildParam "GitVersion_InformationalVersion" |> trace
     NuGet (fun p -> 
@@ -65,7 +64,7 @@ Target "CreatePackage" (fun _ ->
 
 
 "Clean"
-  =?> ("InstallGitVersion", Choco.IsAvailable)
+  //=?> ("InstallGitVersion", Choco.IsAvailable)
   ==> "RestorePackages"
   ==> "BuildApp"
   ==> "CreatePackage"
