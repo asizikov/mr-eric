@@ -45,6 +45,9 @@ Target "CreatePackage" (fun _ ->
         match buildServer with 
         | AppVeyor -> environVar "GitVersion_SemVer"
         | _ ->  baseVersion + "-local"
+    //let x = Shell.Exec("powershell", "(get-item env:GitVersion_InformationalVersion).Value"))// |> trace value
+    appSetting "GitVersion_InformationalVersion" |> trace
+    getBuildParam "GitVersion_InformationalVersion" |> trace
     NuGet (fun p -> 
         {p with
             OutputPath = packagingDir
