@@ -9,6 +9,8 @@ let nuspecFileName = "MrEric.nuspec"
 let baseVersion = "1.3.0"
 
 
+TraceEnvironmentVariables()
+
 Target "Clean" (fun _ ->
     CleanDirs [buildDir; packagingDir]
 )
@@ -38,8 +40,7 @@ Target "Default" (fun _ ->
     trace "Building Mr.Eric"
 )
 Target "CreatePackage" (fun _ ->
-    // Copy all the package files into a package folder
-    //CopyFiles packagingDir allPackageFiles
+    TraceEnvironmentVariables()
     let version = 
         match buildServer with 
         | AppVeyor -> environVar "GitVersion_SemVer"
