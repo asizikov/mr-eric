@@ -24,17 +24,6 @@ Target "RestorePackages" (fun _ ->
           OutputPath = packagesDir }))
 )
 
-//Target "InstallGitVersion" (fun _ ->
-//    "gitversion.portable" |> Choco.Install id
-//    let args = match buildServer with 
-//                  | AppVeyor -> "/l console /output buildserver"
-//                  | _ ->  "/l console"
-//    "Running GitVersion with " + args |> trace
-//    let result = Shell.Exec("gitversion", args ) 
-//    if result <> 0 then failwithf "%s exited with error %d" "gitversion" result
-//)
-
-
 Target "BuildApp" (fun _ ->
     !! "src/**/*.csproj"
         |> MSBuildRelease buildDir "Build"
@@ -48,10 +37,9 @@ Target "CreatePackage" (fun _ ->
     TraceEnvironmentVariables()
     let version = 
         match buildServer with 
-        | AppVeyor -> environVar "GitVersion_SemVer"
+        | AppVeyor -> environVar "GitVersion_NuGetVersion"
         | _ ->  baseVersion + "-local"
-    appSetting "GitVersion_InformationalVersion" |> trace
-    getBuildParam "GitVersion_InformationalVersion" |> trace
+
     NuGet (fun p -> 
         {p with
             OutputPath = packagingDir
