@@ -16,13 +16,15 @@ namespace MrEric.Common
 {
     internal class IntroduceAndInitializePrivateAutoPropertyExectutor
     {
-        private PrivateAutoPropertyInitializationContext Context { get; set; }
+        private PrivateAutoPropertyInitializationContext Context { get; }
+        private bool IsReadOnly { get; }
 
         public IntroduceAndInitializePrivateAutoPropertyExectutor(
-            [NotNull] PrivateAutoPropertyInitializationContext context)
+            [NotNull] PrivateAutoPropertyInitializationContext context, bool isReadOnly)
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
             Context = context;
+            IsReadOnly = isReadOnly;
         }
 
         public void Execute()
@@ -33,11 +35,11 @@ namespace MrEric.Common
         }
 
         private void CreateStatement(CSharpElementFactory factory, ICSharpExpression expression,
-                                     IPsiSourceFile sourceFile)
+            IPsiSourceFile sourceFile)
         {
             var statement = (IExpressionStatement) factory.CreateStatement("'__' = expression;");
             var propertyDeclaration = factory.CreatePrivatePropertyDeclaration(Context.Type,
-                Context.SuggestedPropertyName);
+                Context.SuggestedPropertyName, IsReadOnly);
             var assignment = (IAssignmentExpression) statement.Expression;
             assignment.SetSource(expression);
             var psiServices = expression.GetPsiServices();

@@ -35,9 +35,9 @@ namespace MrEric.Common
 
         private static bool HasNamingConflicts(ITypeElement typeElement, string memberName) => typeElement.HasMembers(memberName, true);
 
-        protected void ExecuteInitialization()
+        protected void ExecuteInitialization(bool isReadOnly)
         {
-            var executor = new IntroduceAndInitializePrivateAutoPropertyExectutor(Context);
+            var executor = new IntroduceAndInitializePrivateAutoPropertyExectutor(Context, isReadOnly);
             executor.Execute();
         }
     }

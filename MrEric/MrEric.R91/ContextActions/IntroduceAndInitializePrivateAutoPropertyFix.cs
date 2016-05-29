@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using JetBrains.Application.Progress;
 using JetBrains.ProjectModel;
-using JetBrains.ReSharper.Daemon;
 using JetBrains.ReSharper.Daemon.UsageChecking;
 using JetBrains.ReSharper.Feature.Services.Bulbs;
 using JetBrains.ReSharper.Feature.Services.Intentions;
@@ -39,7 +38,7 @@ namespace MrEric.ContextActions
 
         protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
         {
-            ExecuteInitialization();
+            ExecuteInitialization(false);
             return null;
         }
 
@@ -59,7 +58,7 @@ namespace MrEric.ContextActions
 
         protected override IParameterDeclaration FindParameterDeclaration() => Context.ParameterDeclaration;
     }
-    
+
     public static class BulbMenuAnchorPositions
     {
         public static readonly IAnchorPosition PermanentTopForIconPosition = AnchorPosition.BasePosition;

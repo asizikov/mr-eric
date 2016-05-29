@@ -34,7 +34,7 @@ namespace MrEric.ContextActions
 
         protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
         {
-            ExecuteInitialization();
+            ExecuteInitialization(false);
             return null;
         }
 
