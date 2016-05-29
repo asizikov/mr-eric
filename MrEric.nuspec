@@ -10,7 +10,7 @@
         <projectUrl>https://github.com/asizikov/mr-eric</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>"Create and initialize private auto-property" context action, quick fix and live template for ReSharper.</description>
-        <releaseNotes>ReSharper 2016.1 support</releaseNotes>
+        <releaseNotes>Private readonly auto-property added</releaseNotes>
         <language>en-US</language>
         <tags>auto-property, autoproperty</tags>
         <dependencies>
