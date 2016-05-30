@@ -1,0 +1,13 @@
+init:
+  - git config --global core.autocrlf input
+install: 
+  - choco install gitversion.portable -y
+before_build:
+  - ps: gitversion /l console /output buildserver /b (get-item env:APPVEYOR_REPO_BRANCH).Value 
+
+build_script:
+  - cmd: build.bat BuildApp
+test: off
+nuget:
+  account_feed: false
+  project_feed: false
