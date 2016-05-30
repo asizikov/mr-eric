@@ -2,8 +2,25 @@ mr-eric
 =======
 Create and initialize private auto-property context action for ReSharper.
 
+Build statuses
 
-![Demo](https://raw.githubusercontent.com/asizikov/mr-eric/master/Content/context_action_demo.gif)
+| master | feature |
+|----|---|
+|[![Build status](https://ci.appveyor.com/api/projects/status/0oi2pep5gv5m1t2o/branch/master?svg=true)](https://ci.appveyor.com/project/asizikov/mr-eric/branch/master) |[![Build status](https://ci.appveyor.com/api/projects/status/0oi2pep5gv5m1t2o?svg=true)](https://ci.appveyor.com/project/asizikov/mr-eric) | 
+
+
+
+## Features: 
+
+Create private and private read-only property quick fix:
+
+<img src="https://raw.githubusercontent.com/asizikov/mr-eric/master/Content/context_action_demo.gif" width="600">
+
+Live templates:
+
+<img src="https://raw.githubusercontent.com/asizikov/mr-eric/master/Content/LiveTemplates.gif" width="600">
+
+## Why
 
 The plugin was inspired by the discussion about Auto Properties in C# language.
 http://stackoverflow.com/questions/3310186/are-there-any-reasons-to-use-private-properties-in-c
@@ -24,10 +41,10 @@ Fields don't let you write code in them, properties do.
 
 How to install
 ===
-ReSharper 8.2:
+ReSharper 8.2 (Not supported anymore):
 https://resharper-plugins.jetbrains.com/packages/MrEric/
 
-ReSharper 9.1:
+Latest ReSharper:
 https://resharper-plugins.jetbrains.com/packages/Sizikov.MrEric/
 
 
