@@ -177,13 +177,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\IntroduceAndInitializePrivateAutoPropertyExectutor.cs" />
-    <Compile Include="Common\IntroduceAndInitializePrivateAutopropertyBase.cs" />
-    <Compile Include="Common\PrivateAutoPropertyInitializationContext.cs" />
+    <Compile Include="Feature\IntroduceAndInitializePrivateAutoPropertyExectutor.cs" />
+    <Compile Include="Feature\PrivateAutoPropertyInitializationContext.cs" />
     <Compile Include="Psi\ClassMemberFactory.cs" />
     <Compile Include="Psi\CSharpIntroducePrivatePropertyFromParameterHelper.cs" />
     <Compile Include="Psi\IIntroducePrivatePropertyFromParameterLanguageHelper.cs" />
-    <Compile Include="ContextActions\IntroduceAndInitializePrivateAutoPropertyFix.cs" />
+    <Compile Include="Feature\Intentions\IntroduceAndInitializePrivateAutoPropertyFix.cs" />
     <Compile Include="Psi\ParameterExt.cs" />
     <Compile Include="Psi\PropertyDeclarationExtensions.cs" />
     <Compile Include="ZoneMarker.cs" />

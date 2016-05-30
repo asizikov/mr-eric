@@ -12,9 +12,9 @@ using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.Util;
 using MrEric.Psi;
 
-namespace MrEric.Common
+namespace MrEric.Feature
 {
-    internal class IntroduceAndInitializePrivateAutoPropertyExectutor
+    internal sealed class IntroduceAndInitializePrivateAutoPropertyExectutor
     {
         private PrivateAutoPropertyInitializationContext Context { get; }
         private bool IsReadOnly { get; }

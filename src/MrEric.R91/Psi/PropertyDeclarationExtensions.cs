@@ -6,7 +6,7 @@ using JetBrains.ReSharper.Psi.CSharp.Tree;
 
 namespace MrEric.Psi
 {
-    public static class PropertyDeclarationExtensions
+    internal static class PropertyDeclarationExtensions
     {
         public static IPropertyDeclaration WithPrivateGetter([NotNull] this IPropertyDeclaration declaration,
             CSharpElementFactory factory)

@@ -4,7 +4,7 @@ using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Tree;
 using MrEric.Psi;
 
-namespace MrEric.Common
+namespace MrEric.Feature
 {
     public class PrivateAutoPropertyInitializationContext
     {
