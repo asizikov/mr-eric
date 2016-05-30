@@ -29,7 +29,7 @@ namespace MrEric.Common
             return !HasNamingConflicts(Context.Constructor.GetContainingType(), Context.SuggestedPropertyName);
         }
 
-        public override string Text => $"Create and initialize private auto-property '{Context.SuggestedPropertyName}'.";
+        public override string Text => $"Create and initialize private auto-property '{Context.SuggestedPropertyName}'";
 
         protected abstract IParameterDeclaration FindParameterDeclaration();
 

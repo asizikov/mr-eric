@@ -179,7 +179,6 @@
   <ItemGroup>
     <Compile Include="Common\IntroduceAndInitializePrivateAutoPropertyExectutor.cs" />
     <Compile Include="Common\IntroduceAndInitializePrivateAutopropertyBase.cs" />
-    <Compile Include="ContextActions\IntroduceAndInitializePrivateAutoPropertyAction.cs" />
     <Compile Include="Common\PrivateAutoPropertyInitializationContext.cs" />
     <Compile Include="Psi\ClassMemberFactory.cs" />
     <Compile Include="Psi\CSharpIntroducePrivatePropertyFromParameterHelper.cs" />

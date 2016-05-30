@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
 using JetBrains.Application.Progress;
 using JetBrains.ProjectModel;
@@ -16,10 +17,11 @@ using MrEric.Common;
 namespace MrEric.ContextActions
 {
     [QuickFix]
-    public class IntroduceAndInitializePrivateAutoPropertyFix : IntroduceAndInitializePrivateAutopropertyBase,
+    [SuppressMessage("ReSharper", "SuggestBaseTypeForParameter")]
+    public sealed class IntroduceAndInitializePrivateAutoPropertyFix : IntroduceAndInitializePrivateAutopropertyBase,
         IQuickFix
     {
-        public static readonly Key InstanceKey = new Key("IntroduceAndInitializePrivateAutoPropertyFix");
+        internal static readonly Key InstanceKey = new Key("IntroduceAndInitializePrivateAutoPropertyFix");
 
         private IntroduceAndInitializePrivateAutoPropertyFix(IParameterDeclaration parameterDeclaration)
         {
@@ -60,10 +62,7 @@ namespace MrEric.ContextActions
             };
         }
 
-        public IEnumerable<IntentionAction> CreateBulbItems()
-        {
-            return CreateItems().ToQuickFixIntentions();
-        }
+        public IEnumerable<IntentionAction> CreateBulbItems() => CreateItems().ToQuickFixIntentions();
 
         public override bool IsAvailable(IUserDataHolder cache)
         {
@@ -74,7 +73,7 @@ namespace MrEric.ContextActions
 
         protected override IParameterDeclaration FindParameterDeclaration() => Context.ParameterDeclaration;
 
-        private class Private : BulbActionBase
+        private sealed class Private : BulbActionBase
         {
             private PrivateAutoPropertyInitializationContext Context { get; }
 
@@ -92,10 +91,10 @@ namespace MrEric.ContextActions
             }
 
             public override string Text
-                => $"Create and initialize private auto-property '{Context.SuggestedPropertyName}'.";
+                => $"Create and initialize private auto-property '{Context.SuggestedPropertyName}'";
         }
 
-        private class PrivateReadOnly : BulbActionBase
+        private sealed class PrivateReadOnly : BulbActionBase
         {
             private PrivateAutoPropertyInitializationContext Context { get; }
 
@@ -113,7 +112,7 @@ namespace MrEric.ContextActions
             }
 
             public override string Text
-                => $"Create and initialize private readonly auto-property '{Context.SuggestedPropertyName}'.";
+                => $"Create and initialize private readonly auto-property '{Context.SuggestedPropertyName}'";
         }
     }
 }
