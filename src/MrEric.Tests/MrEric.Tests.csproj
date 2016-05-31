@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\JetBrains.ReSharper.SDK.Tests.2016.1.20160523.144409\build\JetBrains.ReSharper.SDK.Tests.props" Condition="Exists('..\packages\JetBrains.ReSharper.SDK.Tests.2016.1.20160523.144409\build\JetBrains.ReSharper.SDK.Tests.props')" />
+  <Import Project="..\packages\JetBrains.ReSharper.SDK.Tests.2016.1.20160504.105616\build\JetBrains.ReSharper.SDK.Tests.props" Condition="Exists('..\packages\JetBrains.ReSharper.SDK.Tests.2016.1.20160504.105616\build\JetBrains.ReSharper.SDK.Tests.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -15,6 +15,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
+    <JetTestProject>True</JetTestProject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -204,7 +205,7 @@
     <Error Condition="!Exists('..\packages\JetBrains.Psi.Features.VisualStudio.105.0.20160523.140224\build\JetBrains.Psi.Features.VisualStudio.Targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\JetBrains.Psi.Features.VisualStudio.105.0.20160523.140224\build\JetBrains.Psi.Features.VisualStudio.Targets'))" />
     <Error Condition="!Exists('..\packages\JetBrains.Psi.Features.Cpp.Src.105.0.20160523.141910\build\JetBrains.Psi.Features.Cpp.Src.Targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\JetBrains.Psi.Features.Cpp.Src.105.0.20160523.141910\build\JetBrains.Psi.Features.Cpp.Src.Targets'))" />
     <Error Condition="!Exists('..\packages\JetBrains.ReSharper.SDK.Internal.105.0.20160523.144409\build\JetBrains.ReSharper.SDK.Internal.Targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\JetBrains.ReSharper.SDK.Internal.105.0.20160523.144409\build\JetBrains.ReSharper.SDK.Internal.Targets'))" />
-    <Error Condition="!Exists('..\packages\JetBrains.ReSharper.SDK.Tests.2016.1.20160523.144409\build\JetBrains.ReSharper.SDK.Tests.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\JetBrains.ReSharper.SDK.Tests.2016.1.20160523.144409\build\JetBrains.ReSharper.SDK.Tests.props'))" />
+    <Error Condition="!Exists('..\packages\JetBrains.ReSharper.SDK.Tests.2016.1.20160504.105616\build\JetBrains.ReSharper.SDK.Tests.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\JetBrains.ReSharper.SDK.Tests.2016.1.20160504.105616\build\JetBrains.ReSharper.SDK.Tests.props'))" />
   </Target>
   <Import Project="..\packages\JetBrains.Build.Platform.Tasks.ThemedIconsPacker.2.0.20151217.1\build\JetBrains.Build.Platform.Tasks.ThemedIconsPacker.Targets" Condition="Exists('..\packages\JetBrains.Build.Platform.Tasks.ThemedIconsPacker.2.0.20151217.1\build\JetBrains.Build.Platform.Tasks.ThemedIconsPacker.Targets')" />
   <Import Project="..\packages\JetBrains.Platform.Core.Shell.105.0.20160520.92915\build\JetBrains.Platform.Core.Shell.Targets" Condition="Exists('..\packages\JetBrains.Platform.Core.Shell.105.0.20160520.92915\build\JetBrains.Platform.Core.Shell.Targets')" />
