@@ -1,6 +1,6 @@
 mr-eric
 =======
-Create and initialize private auto-property context action for ReSharper.
+Create and initialize private/public readonly auto-property context action for ReSharper.
 
 Build statuses
 
