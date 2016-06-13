@@ -38,8 +38,8 @@ namespace MrEric.Feature
             IPsiSourceFile sourceFile)
         {
             var statement = (IExpressionStatement) factory.CreateStatement("'__' = expression;");
-            var propertyDeclaration = factory.CreatePrivatePropertyDeclaration(Context.Type,
-                Context.SuggestedPropertyName, IsReadOnly);
+            var propertyDeclaration = factory.CreatePropertyDeclaration(Context.Type,
+                Context.SuggestedPropertyName, IsReadOnly,AccessRights.PRIVATE);
             var assignment = (IAssignmentExpression) statement.Expression;
             assignment.SetSource(expression);
             var psiServices = expression.GetPsiServices();
@@ -66,7 +66,7 @@ namespace MrEric.Feature
             classDeclaration.AddClassMemberDeclarationAfter(propertyDeclaration, (IClassMemberDeclaration) memberAnchor);
 
             var languageHelper =
-                LanguageManager.Instance.TryGetService<IIntroducePrivatePropertyFromParameterLanguageHelper>(
+                LanguageManager.Instance.TryGetService<IIntroducePropertyFromParameterLanguageHelper>(
                     Context.Parameter.PresentationLanguage);
 
             if (languageHelper == null) return;

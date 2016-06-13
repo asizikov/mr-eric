@@ -250,3 +250,7 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+/src/MrEric.R91/Feature/PublicAutoPropertyInitializationContext.cs
+/src/MrEric.R91/Feature/IntroduceAndInitializePublicAutoPropertyExectutor.cs
+/src/MrEric.R91/Feature/Intentions/IntroduceAndInitializePublicAutoPropertyFix.cs
+/.build

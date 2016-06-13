@@ -177,11 +177,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Feature\Intentions\IntroduceAndInitializePublicAutoPropertyFix.cs" />
     <Compile Include="Feature\IntroduceAndInitializePrivateAutoPropertyExectutor.cs" />
+    <Compile Include="Feature\IntroduceAndInitializePublicAutoPropertyExectutor.cs" />
     <Compile Include="Feature\PrivateAutoPropertyInitializationContext.cs" />
+    <Compile Include="Feature\PublicAutoPropertyInitializationContext.cs" />
     <Compile Include="Psi\ClassMemberFactory.cs" />
-    <Compile Include="Psi\CSharpIntroducePrivatePropertyFromParameterHelper.cs" />
-    <Compile Include="Psi\IIntroducePrivatePropertyFromParameterLanguageHelper.cs" />
+    <Compile Include="Psi\CSharpIntroducePropertyFromParameterHelper.cs" />
+    <Compile Include="Psi\IIntroducePropertyFromParameterLanguageHelper.cs" />
     <Compile Include="Feature\Intentions\IntroduceAndInitializePrivateAutoPropertyFix.cs" />
     <Compile Include="Psi\ParameterExt.cs" />
     <Compile Include="Psi\PropertyDeclarationExtensions.cs" />
