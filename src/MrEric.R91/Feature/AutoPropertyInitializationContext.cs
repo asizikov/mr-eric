@@ -6,7 +6,7 @@ using MrEric.Psi;
 
 namespace MrEric.Feature
 {
-    public class PrivateAutoPropertyInitializationContext
+    public class AutoPropertyInitializationContext
     {
         public IType Type { get; private set; }
 
