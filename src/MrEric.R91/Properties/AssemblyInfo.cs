@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 
 [assembly: AssemblyTitle("MrEric")]
-[assembly: AssemblyDescription("Create and initialize private auto-property action.")]
+[assembly: AssemblyDescription("Create and initialize auto-property action.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Anton Sizikov")]
 [assembly: AssemblyProduct("MrEric")]

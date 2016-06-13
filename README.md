@@ -1,6 +1,6 @@
 mr-eric
 =======
-Create and initialize private auto-property context action for ReSharper.
+Create and initialize private/public readonly auto-property context action for ReSharper.
 
 Build statuses
 
@@ -12,7 +12,7 @@ Build statuses
 
 ## Features: 
 
-Create private and private read-only property quick fix:
+Create private, private read-only and public read-only properties quick fix:
 
 <img src="https://raw.githubusercontent.com/asizikov/mr-eric/master/Content/context_action_demo.gif" width="600">
 

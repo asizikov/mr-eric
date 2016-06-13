@@ -7,7 +7,7 @@ using JetBrains.ReSharper.Psi.Tree;
 namespace MrEric.Psi
 {
     [Language(typeof (CSharpLanguage))]
-    public class CSharpIntroducePrivatePropertyFromParameterHelper : IIntroducePrivatePropertyFromParameterLanguageHelper
+    public class CSharpIntroducePropertyFromParameterHelper : IIntroducePropertyFromParameterLanguageHelper
     {
         public void AddAssignmentToBody(IConstructorDeclaration constructorDeclaration, IStatement anchorStatement,
                                         bool insertBefore, IParameter parameter, ITypeMember member)

@@ -6,11 +6,11 @@ namespace MrEric.Psi
 {
     public static class ClassMemberFactory
     {
-        public static IClassMemberDeclaration CreatePrivatePropertyDeclaration(this CSharpElementFactory factory,
-            IType typeExpression, string memberName, bool isReadOnly)
+        public static IClassMemberDeclaration CreatePropertyDeclaration(this CSharpElementFactory factory,
+         IType typeExpression, string memberName, bool isReadOnly, AccessRights accessRights)
         {
             var declaration = factory.CreatePropertyDeclaration(typeExpression, memberName);
-            declaration.SetAccessRights(AccessRights.PRIVATE);
+            declaration.SetAccessRights(accessRights);
             declaration.WithPrivateGetter(factory);
             if (!isReadOnly)
             {
@@ -18,5 +18,6 @@ namespace MrEric.Psi
             }
             return declaration;
         }
+
     }
 }
