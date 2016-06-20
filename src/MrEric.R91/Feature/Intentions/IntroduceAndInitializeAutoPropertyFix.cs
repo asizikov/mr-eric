@@ -19,23 +19,23 @@ namespace MrEric.Feature.Intentions
 {
     [QuickFix]
     [SuppressMessage("ReSharper", "SuggestBaseTypeForParameter")]
-    public sealed class IntroduceAndInitializePrivateAutoPropertyFix : IQuickFix
+    public sealed class IntroduceAndInitializeAutoPropertyFix : IQuickFix
     {
-        private PrivateAutoPropertyInitializationContext Context { get; }
+        private AutoPropertyInitializationContext Context { get; }
         private CSharpLanguage Language { get; }
 
-        private IntroduceAndInitializePrivateAutoPropertyFix(IParameterDeclaration parameterDeclaration)
+        private IntroduceAndInitializeAutoPropertyFix(IParameterDeclaration parameterDeclaration)
         {
-            Context = new PrivateAutoPropertyInitializationContext();
+            Context = new AutoPropertyInitializationContext();
             Language = CSharpLanguage.Instance;
             Context.Initialize(parameterDeclaration);
         }
 
-        public IntroduceAndInitializePrivateAutoPropertyFix(UnusedParameterLocalWarning warning) : this(warning.Declaration)
+        public IntroduceAndInitializeAutoPropertyFix(UnusedParameterLocalWarning warning) : this(warning.Declaration)
         {
         }
 
-        public IntroduceAndInitializePrivateAutoPropertyFix(NotAccessedParameterLocalWarning error) : this(error.Declaration)
+        public IntroduceAndInitializeAutoPropertyFix(NotAccessedParameterLocalWarning error) : this(error.Declaration)
         {
         }
 
@@ -59,23 +59,23 @@ namespace MrEric.Feature.Intentions
             =>
                 !Context.ParameterDeclaration.IsCSharp6Supported()
                     ? new IBulbAction[] { new Private(Context) }
-                    : new IBulbAction[] { new PrivateReadOnly(Context), new Private(Context) };
+                    : new IBulbAction[] { new PrivateReadOnly(Context), new PublicReadOnly(Context),new Private(Context) };
 
         private sealed class Private : BulbActionBase
         {
             public override string Text => $"Create and initialize private auto-property '{Context.SuggestedPropertyName}'";
 
-            private PrivateAutoPropertyInitializationContext Context { get; }
+            private AutoPropertyInitializationContext Context { get; }
 
-            public Private(PrivateAutoPropertyInitializationContext context)
+            public Private(AutoPropertyInitializationContext context)
             {
                 Context = context;
             }
 
             protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
             {
-                var executor = new IntroduceAndInitializePrivateAutoPropertyExectutor(Context, false);
-                executor.Execute();
+                var executor = new IntroduceAndInitializeAutoPropertyExectutor(Context, false);
+                executor.Execute(AccessRights.PRIVATE);
                 return null;
             }
         }
@@ -83,17 +83,35 @@ namespace MrEric.Feature.Intentions
         private sealed class PrivateReadOnly : BulbActionBase
         {
             public override string Text => $"Create and initialize private readonly auto-property '{Context.SuggestedPropertyName}'";
-            private PrivateAutoPropertyInitializationContext Context { get; }
+            private AutoPropertyInitializationContext Context { get; }
 
-            public PrivateReadOnly(PrivateAutoPropertyInitializationContext context)
+            public PrivateReadOnly(AutoPropertyInitializationContext context)
             {
                 Context = context;
             }
 
             protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
             {
-                var executor = new IntroduceAndInitializePrivateAutoPropertyExectutor(Context, true);
-                executor.Execute();
+                var executor = new IntroduceAndInitializeAutoPropertyExectutor(Context, true);
+                executor.Execute(AccessRights.PRIVATE);
+                return null;
+            }
+        }
+
+        private sealed class PublicReadOnly : BulbActionBase
+        {
+            public override string Text => $"Create and initialize public readonly auto-property '{Context.SuggestedPropertyName}'";
+            private AutoPropertyInitializationContext Context { get; }
+
+            public PublicReadOnly(AutoPropertyInitializationContext context)
+            {
+                Context = context;
+            }
+
+            protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
+            {
+                var executor = new IntroduceAndInitializeAutoPropertyExectutor(Context, true);
+                executor.Execute(AccessRights.PUBLIC);
                 return null;
             }
         }

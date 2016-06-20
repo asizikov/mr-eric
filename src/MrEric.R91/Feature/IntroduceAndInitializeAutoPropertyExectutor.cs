@@ -14,32 +14,32 @@ using MrEric.Psi;
 
 namespace MrEric.Feature
 {
-    internal sealed class IntroduceAndInitializePrivateAutoPropertyExectutor
+    internal sealed class IntroduceAndInitializeAutoPropertyExectutor
     {
-        private PrivateAutoPropertyInitializationContext Context { get; }
+        private AutoPropertyInitializationContext Context { get; }
         private bool IsReadOnly { get; }
 
-        public IntroduceAndInitializePrivateAutoPropertyExectutor(
-            [NotNull] PrivateAutoPropertyInitializationContext context, bool isReadOnly)
+        public IntroduceAndInitializeAutoPropertyExectutor(
+            [NotNull] AutoPropertyInitializationContext context, bool isReadOnly)
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
             Context = context;
             IsReadOnly = isReadOnly;
         }
 
-        public void Execute()
+        public void Execute(AccessRights accessRights)
         {
             var factory = CSharpElementFactory.GetInstance(Context.ParameterDeclaration);
             CreateStatement(factory, Context.Parameter.CreateExpression(Context.Parameter) as ICSharpExpression,
-                Context.SourceFile);
+                Context.SourceFile, accessRights);
         }
 
         private void CreateStatement(CSharpElementFactory factory, ICSharpExpression expression,
-            IPsiSourceFile sourceFile)
+            IPsiSourceFile sourceFile, AccessRights accessRights)
         {
             var statement = (IExpressionStatement) factory.CreateStatement("'__' = expression;");
-            var propertyDeclaration = factory.CreatePrivatePropertyDeclaration(Context.Type,
-                Context.SuggestedPropertyName, IsReadOnly);
+            var propertyDeclaration = factory.CreatePropertyDeclaration(Context.Type,
+                Context.SuggestedPropertyName, IsReadOnly,accessRights);
             var assignment = (IAssignmentExpression) statement.Expression;
             assignment.SetSource(expression);
             var psiServices = expression.GetPsiServices();
@@ -66,7 +66,7 @@ namespace MrEric.Feature
             classDeclaration.AddClassMemberDeclarationAfter(propertyDeclaration, (IClassMemberDeclaration) memberAnchor);
 
             var languageHelper =
-                LanguageManager.Instance.TryGetService<IIntroducePrivatePropertyFromParameterLanguageHelper>(
+                LanguageManager.Instance.TryGetService<IIntroducePropertyFromParameterLanguageHelper>(
                     Context.Parameter.PresentationLanguage);
 
             if (languageHelper == null) return;
