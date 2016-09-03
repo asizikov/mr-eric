@@ -3,10 +3,10 @@
 open Fake
 open Fake.AppVeyor
 
-let buildDir = "./.build/"
+let buildDir = "./build/"
 let packagingDir = "./.deploy/"
 let nuspecFileName = "MrEric.nuspec"
-let baseVersion = "1.3.0"
+let baseVersion = "2016.2.0"
 let slnFile = "./src/MrEric.sln"
 
 
