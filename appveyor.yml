@@ -1,13 +1,46 @@
-init:
-  - git config --global core.autocrlf input
-install: 
-  - choco install gitversion.portable -y
-before_build:
-  - ps: gitversion /l console /output buildserver /b (get-item env:APPVEYOR_REPO_BRANCH).Value 
-
-build_script:
-  - cmd: build.bat BuildApp
-test: off
-nuget:
-  account_feed: false
-  project_feed: false
+  -
+  branches:
+    only:
+      - master
+  configuration: Release
+  platform: Any CPU
+  init:
+    - git config --global core.autocrlf input
+  build_script:
+        - cmd: build.bat BuildApp
+  test: off
+  nuget:
+    account_feed: false
+    project_feed: false
+  environment:
+    resharper_nuget_api_key:
+      secure: RjiHK3Oxp74LUrI1/vmc2S36zOSRLxFM1Eq0Qn4hixWiou11jFqUbW2ukMNXrazP
+    - ps: if(-not $env:APPVEYOR_PULL_REQUEST_NUMBER){ nuget push *.nupkg -ApiKey (get-item env:resharper_nuget_api_key).Value -Source https://resharper-plugins.jetbrains.com }
+- 
+  branches:
+    only:
+      - /.*/merge/
+  configuration: Release
+  platform: Any CPU
+  init:
+    - git config --global core.autocrlf input
+  build_script:
+        - cmd: build.bat BuildApp
+  test: off
+  nuget:
+    account_feed: false
+    project_feed: false
+-
+  branches:
+    only:
+      - *
+  configuration: Release
+  platform: Any CPU
+  init:
+    - git config --global core.autocrlf input
+  build_script:
+        - cmd: build.bat BuildApp
+  test: off
+  nuget:
+    account_feed: false
+    project_feed: false
