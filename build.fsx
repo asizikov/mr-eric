@@ -15,6 +15,9 @@ let version =
         | _ ->  baseVersion + "-local"
 
 let isMergeRequest = 
+    trace "Merge Request Number"
+    let mrVal = environVar "APPVEYOR_PULL_REQUEST_NUMBER"
+    trace mrVal
     let MrNumber = 
         match buildServer with 
         | AppVeyor -> environVarOrNone "APPVEYOR_PULL_REQUEST_NUMBER"
