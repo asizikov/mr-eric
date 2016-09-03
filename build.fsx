@@ -8,25 +8,15 @@ let packagingDir = "./.deploy/"
 let nuspecFileName = "MrEric.nuspec"
 let baseVersion = "1.3.0"
 let slnFile = "./src/MrEric.sln"
-let packagesDir = @"./src/packages"
 
 
 Target "Clean" (fun _ ->
     CleanDirs [buildDir; packagingDir]
 )
 
-Target "RestorePackages" (fun _ -> 
-    slnFile
-    |> RestoreMSSolutionPackages (fun p ->
-        { p with
-            Sources = p.Sources
-            OutputPath = packagesDir
-        })
-)
-
 Target "BuildApp" (fun _ ->
     !! "src/**/*.csproj"
-        |> MSBuildRelease buildDir "Build"
+        |> MSBuild buildDir "Build" [ "Configuration", "Release" ]
         |> Log "AppBuild-Output: "
 )
 
@@ -52,7 +42,6 @@ Target "CreatePackage" (fun _ ->
 
 "Clean"
   //=?> ("InstallGitVersion", Choco.IsAvailable)
-  ==> "RestorePackages"
   ==> "BuildApp"
   ==> "CreatePackage"
   ==> "Default"
