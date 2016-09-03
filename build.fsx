@@ -17,13 +17,11 @@ let version =
 let isMergeRequest = 
     let MrNumber = 
         match buildServer with 
-        | AppVeyor -> environVar "APPVEYOR_PULL_REQUEST_NUMBER"
-        | _ ->  ""
-    trace "MR"
-    trace MrNumber
+        | AppVeyor -> environVarOrNone "APPVEYOR_PULL_REQUEST_NUMBER"
+        | _ ->  None
     match MrNumber with
-    | "" -> false
-    | _ -> true
+    | Some(_) -> false
+    | None -> true
 
 // NuGet
 let projectName = "MrEric"
