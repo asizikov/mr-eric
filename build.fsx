@@ -7,6 +7,8 @@ let buildDir = "./.build/"
 let packagingDir = "./.deploy/"
 let nuspecFileName = "MrEric.nuspec"
 let baseVersion = "1.3.0"
+let slnFile = "./src/MrEric.sln"
+let packagesDir = @"./src/packages"
 
 
 TraceEnvironmentVariables()
@@ -15,13 +17,13 @@ Target "Clean" (fun _ ->
     CleanDirs [buildDir; packagingDir]
 )
 
-
-Target "RestorePackages" (fun _ ->
-  let packagesDir = @"./src/packages"
-  !! "./**/packages.config"
-  |> Seq.iter (RestorePackage (fun p ->
-      { p with
-          OutputPath = packagesDir }))
+Target "RestorePackages" (fun _ -> 
+    slnFile
+    |> RestoreMSSolutionPackages (fun p ->
+        { p with
+            Sources = p.Sources
+            OutputPath = packagesDir
+        })
 )
 
 Target "BuildApp" (fun _ ->
