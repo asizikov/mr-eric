@@ -19,6 +19,8 @@ let isMergeRequest =
         match buildServer with 
         | AppVeyor -> environVar "APPVEYOR_PULL_REQUEST_NUMBER"
         | _ ->  ""
+    trace "MR"
+    trace MrNumber
     match MrNumber with
     | "" -> false
     | _ -> true
