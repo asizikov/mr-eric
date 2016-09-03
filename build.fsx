@@ -3,11 +3,27 @@
 open Fake
 open Fake.AppVeyor
 
+// Project parameters
+
 let buildDir = "./build/"
 let packagingDir = "./.deploy/"
-let nuspecFileName = "MrEric.nuspec"
 let baseVersion = "2016.2.0"
-let slnFile = "./src/MrEric.sln"
+
+let version = 
+        match buildServer with 
+        | AppVeyor -> environVar "GitVersion_NuGetVersionV2"
+        | _ ->  baseVersion + "-local"
+
+// NuGet
+let projectName = "MrEric"
+let nuspecFileName = projectName + ".nuspec"
+let packageName = "Sizikov." + projectName
+let galleryUri = "https://resharper-plugins.jetbrains.com"
+
+let apiKey = 
+        match buildServer with 
+        | AppVeyor -> environVar "resharper_nuget_api_key"
+        | _ ->  "Nothing here"
 
 
 Target "Clean" (fun _ ->
@@ -24,11 +40,6 @@ Target "Default" (fun _ ->
     trace "Building Mr.Eric"
 )
 Target "CreatePackage" (fun _ ->
-    let version = 
-        match buildServer with 
-        | AppVeyor -> environVar "GitVersion_NuGetVersionV2"
-        | _ ->  baseVersion + "-local"
-
     NuGet (fun p -> 
         {p with
             OutputPath = packagingDir
@@ -38,12 +49,38 @@ Target "CreatePackage" (fun _ ->
             nuspecFileName
 )
 
+Target "PublishPackage" (fun _ -> 
+    let branch = Fake.Git.Information.getBranchName "."
+    if branch = "master" then
+        if isLocalBuild then
+            trace "Package can only be published from Appveyor build"
+        else
+            match buildServer with 
+            | AppVeyor -> 
+                    let isPr = environVar "APPVEYOR_PULL_REQUEST_NUMBER"
+                    trace isPr
+                    NuGetPublish (fun p ->
+                    { p with
+                        AccessKey = apiKey
+                        PublishUrl = galleryUri
+                        NoPackageAnalysis = true
+                        Publish = true
+                        WorkingDir = packagingDir
+                        OutputPath = packagingDir
+                        Project = packageName
+                        Version = version
+                    })
+            | _ ->  trace "Do not publish from local build"
+    else 
+        trace "Package can only be published from master branch"
+        DoNothing()
 
+)
 
 "Clean"
-  //=?> ("InstallGitVersion", Choco.IsAvailable)
   ==> "BuildApp"
   ==> "CreatePackage"
+  ==> "PublishPackage"
   ==> "Default"
 
 RunTargetOrDefault "Default"
