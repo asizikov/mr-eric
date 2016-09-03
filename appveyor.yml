@@ -30,7 +30,7 @@
 -
   branches:
     only:
-      - /*/
+      - /*
   init:
     - git config --global core.autocrlf input
   build_script:
