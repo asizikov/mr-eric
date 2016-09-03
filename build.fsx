@@ -11,8 +11,6 @@ let slnFile = "./src/MrEric.sln"
 let packagesDir = @"./src/packages"
 
 
-TraceEnvironmentVariables()
-
 Target "Clean" (fun _ ->
     CleanDirs [buildDir; packagingDir]
 )
@@ -36,7 +34,6 @@ Target "Default" (fun _ ->
     trace "Building Mr.Eric"
 )
 Target "CreatePackage" (fun _ ->
-    TraceEnvironmentVariables()
     let version = 
         match buildServer with 
         | AppVeyor -> environVar "GitVersion_NuGetVersion"
