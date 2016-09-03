@@ -23,8 +23,8 @@ let isMergeRequest =
         | AppVeyor -> environVarOrNone "APPVEYOR_PULL_REQUEST_NUMBER"
         | _ ->  None
     match MrNumber with
-    | Some(_) -> false
-    | None -> true
+    | Some(_) -> true
+    | None -> false
 
 // NuGet
 let projectName = "MrEric"
