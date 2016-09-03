@@ -37,7 +37,7 @@ Target "BuildApp" (fun _ ->
 )
 
 Target "Default" (fun _ ->
-    trace "Building Mr.Eric"
+    DoNothing()
 )
 Target "CreatePackage" (fun _ ->
     NuGet (fun p -> 
@@ -50,6 +50,8 @@ Target "CreatePackage" (fun _ ->
 )
 
 Target "PublishPackage" (fun _ -> 
+    let isPr = environVar "APPVEYOR_PULL_REQUEST_NUMBER"
+    trace isPr
     let branch = Fake.Git.Information.getBranchName "."
     if branch = "master" then
         if isLocalBuild then
@@ -57,8 +59,6 @@ Target "PublishPackage" (fun _ ->
         else
             match buildServer with 
             | AppVeyor -> 
-                    let isPr = environVar "APPVEYOR_PULL_REQUEST_NUMBER"
-                    trace isPr
                     NuGetPublish (fun p ->
                     { p with
                         AccessKey = apiKey
