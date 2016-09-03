@@ -14,16 +14,14 @@ let version =
         | AppVeyor -> environVar "GitVersion_NuGetVersionV2"
         | _ ->  baseVersion + "-local"
 
-let isMergeRequest = 
-    let MrNumber = 
+let isPullRequest = 
+    let prNumber = 
         match buildServer with 
-        | AppVeyor -> environVar "APPVEYOR_PULL_REQUEST_NUMBER"
-        | _ ->  ""
-    trace "MR"
-    trace MrNumber
-    match MrNumber with
-    | "" -> false
-    | _ -> true
+        | AppVeyor -> environVarOrNone "APPVEYOR_PULL_REQUEST_NUMBER"
+        | _ ->  None
+    match prNumber with
+    | Some(_) -> true
+    | None -> false
 
 // NuGet
 let projectName = "MrEric"
@@ -68,7 +66,7 @@ Target "PublishPackage" (fun _ ->
         else
             match buildServer with 
             | AppVeyor -> 
-                    if isMergeRequest then
+                    if isPullRequest then
                         trace "Skip publish from PR"
                     else 
                         NuGetPublish (fun p ->
