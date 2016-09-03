@@ -5,7 +5,7 @@
   init:
     - git config --global core.autocrlf input
   build_script:
-        - cmd: build.bat BuildApp
+    - cmd: build.bat BuildApp
   test: off
   nuget:
     account_feed: false
@@ -22,7 +22,7 @@
   init:
     - git config --global core.autocrlf input
   build_script:
-        - cmd: build.bat BuildApp
+    - cmd: build.bat BuildApp
   test: off
   nuget:
     account_feed: false
@@ -30,11 +30,11 @@
 -
   branches:
     only:
-      - /*
+      - /.*
   init:
     - git config --global core.autocrlf input
   build_script:
-        - cmd: build.bat BuildApp
+    - cmd: build.bat BuildApp
   test: off
   nuget:
     account_feed: false
