@@ -54,12 +54,13 @@ namespace MrEric.Feature.Intentions
 
         private IParameterDeclaration FindParameterDeclaration() => Context.ParameterDeclaration;
         private static bool HasNamingConflicts(ITypeElement typeElement, string memberName) => typeElement.HasMembers(memberName, true);
+
         [NotNull]
         private IEnumerable<IBulbAction> CreateItems()
             =>
                 !Context.ParameterDeclaration.IsCSharp6Supported()
-                    ? new IBulbAction[] { new Private(Context) }
-                    : new IBulbAction[] { new PrivateReadOnly(Context), new PublicReadOnly(Context),new Private(Context) };
+                    ? new IBulbAction[] {new Private(Context)}
+                    : new IBulbAction[] {new PrivateReadOnly(Context), new PublicReadOnly(Context), new Private(Context)};
 
         private sealed class Private : BulbActionBase
         {

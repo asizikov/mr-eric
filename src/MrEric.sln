@@ -1,21 +1,18 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{EA68B75B-FD4D-4148-BB11-17392638A1E6}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\packages.config = .nuget\packages.config
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MrEric.R91", "MrEric.R91\MrEric.R91.csproj", "{7446AAE8-D6CE-4EA5-B91F-BEE927D378AC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{96B99169-1990-449E-AF0A-E06B4F177ECE}"
 	ProjectSection(SolutionItems) = preProject
+		..\.editorconfig = ..\.editorconfig
 		..\appveyor.yml = ..\appveyor.yml
 		..\build.bat = ..\build.bat
 		..\build.fsx = ..\build.fsx
 		..\GitVersionConfig.yml = ..\GitVersionConfig.yml
 		..\MrEric.nuspec = ..\MrEric.nuspec
+		nuget.config = nuget.config
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
