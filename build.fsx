@@ -26,7 +26,7 @@ Target "Default" (fun _ ->
 Target "CreatePackage" (fun _ ->
     let version = 
         match buildServer with 
-        | AppVeyor -> environVar "GitVersion_InformationalVersion"
+        | AppVeyor -> environVar "GitVersion_NuGetVersionV2"
         | _ ->  baseVersion + "-local"
 
     NuGet (fun p -> 
