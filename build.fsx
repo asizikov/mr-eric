@@ -14,6 +14,15 @@ let version =
         | AppVeyor -> environVar "GitVersion_NuGetVersionV2"
         | _ ->  baseVersion + "-local"
 
+let isMergeRequest = 
+    let MrNumber = 
+        match buildServer with 
+        | AppVeyor -> environVar "APPVEYOR_PULL_REQUEST_NUMBER"
+        | _ ->  ""
+    match MrNumber with
+    | "" -> false
+    | _ -> true
+
 // NuGet
 let projectName = "MrEric"
 let nuspecFileName = projectName + ".nuspec"
@@ -50,8 +59,6 @@ Target "CreatePackage" (fun _ ->
 )
 
 Target "PublishPackage" (fun _ -> 
-    let isPr = environVar "APPVEYOR_PULL_REQUEST_NUMBER"
-    trace isPr
     let branch = Fake.Git.Information.getBranchName "."
     if branch = "master" then
         if isLocalBuild then
@@ -59,17 +66,20 @@ Target "PublishPackage" (fun _ ->
         else
             match buildServer with 
             | AppVeyor -> 
-                    NuGetPublish (fun p ->
-                    { p with
-                        AccessKey = apiKey
-                        PublishUrl = galleryUri
-                        NoPackageAnalysis = true
-                        Publish = true
-                        WorkingDir = packagingDir
-                        OutputPath = packagingDir
-                        Project = packageName
-                        Version = version
-                    })
+                    if isMergeRequest then
+                        trace "Skip publish from PR"
+                    else 
+                        NuGetPublish (fun p ->
+                        { p with
+                            AccessKey = apiKey
+                            PublishUrl = galleryUri
+                            NoPackageAnalysis = true
+                            Publish = true
+                            WorkingDir = packagingDir
+                            OutputPath = packagingDir
+                            Project = packageName
+                            Version = version
+                        })
             | _ ->  trace "Do not publish from local build"
     else 
         trace "Package can only be published from master branch"
